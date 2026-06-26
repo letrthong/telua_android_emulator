@@ -2,19 +2,17 @@ version: "3.8"
 
 services:
   android-emulator:
-    image: budtmo/docker-android:emulator_11.0  # Bạn có thể đổi sang 10.0, 12.0...
-    container_name: android-emulator-11
-    restart: unless-stopped                     # Tự động chạy lại nếu bị lỗi
-    privileged: true                            # Cấp quyền cao nhất để truy cập phần cứng (tùy chọn nhưng khuyên dùng cho nested VM)
+    # XÓA dòng 'image: ...' và THÊM dòng 'build: .'
+    build: . 
+    container_name: android-emulator-custom
+    privileged: true
     devices:
-      - "/dev/kvm:/dev/kvm"                     # ĐÂY LÀ DÒNG QUAN TRỌNG NHẤT: Trỏ KVM từ Ubuntu vào Container
+      - "/dev/kvm:/dev/kvm"
     ports:
-      - "6080:6080"                             # Cổng xem màn hình qua Web VNC
-      - "5554:5554"                             # Cổng nội bộ của Emulator
-      - "5555:5555"                             # Cổng ADB để Gradle kết nối vào cài file APK
+      - "6080:6080"
+      - "5554:5554"
+      - "5555:5555"
     environment:
-      - EMULATOR_DEVICE=Samsung Galaxy S10      # Tên thiết bị ảo muốn mô phỏng
-      - WEB_VNC=true                            # Bật giao diện web
-      - APPIUM=false                            # Tắt Appium nếu bạn chỉ test Gradle/AIDL (giúp nhẹ máy hơn)
-    volumes:
-      - ./emulator-data:/root/android_emulator  # (Tùy chọn) Lưu cache của máy ảo ra ngoài để lần sau khởi động nhanh hơn
+      - EMULATOR_DEVICE=Samsung Galaxy S10
+      - WEB_VNC=true
+      - APPIUM=false
