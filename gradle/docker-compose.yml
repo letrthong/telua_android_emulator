@@ -2,13 +2,17 @@ version: '3.9'
 
 services:
   ubuntu_java:
-    image: ubuntu_java
-    container_name: ubuntu_java
-    ports:
-      - "9001:9001"
     build:
       context: .
       dockerfile: Dockerfile
-   
+    container_name: ubuntu_java
+    volumes:
+      # Ánh xạ thư mục dự án mẫu vào trong container
+      - ./sample-ipc-app:/workspace/sample-ipc-app
+      # Lưu lại cache của Gradle trên máy host để tăng tốc độ cho những lần build sau
+      - gradle-cache:/root/.gradle
     stdin_open: true
     tty: true
+
+volumes:
+  gradle-cache:

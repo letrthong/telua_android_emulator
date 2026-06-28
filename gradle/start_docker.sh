@@ -1,17 +1,15 @@
 #!/bin/bash
-# Stop script immediately on error (important for detecting build errors)
+# Dừng script ngay lập tức nếu có lỗi xảy ra
 set -e
 
-# remove the rest containers if have
+# Dừng và xóa container cũ nếu có
 docker compose down
 
-# Ensure old container is removed if down command didn't handle it or if manually created
+# Đảm bảo container cũ bị xóa sạch
 docker rm -f ubuntu_java 2>/dev/null || true
 
-# build images
+# Build image mới không dùng cache để tránh lỗi
 docker compose build --no-cache
 
-# start up containers from all images
+# Khởi chạy container
 docker compose up
-
-#docker compose up -d  ( -d Detached)
