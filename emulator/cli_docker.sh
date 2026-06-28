@@ -7,9 +7,24 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Chuyển thư mục làm việc về thư mục chứa script này để có thể chạy từ bất cứ đâu
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR" || exit 1
+
+# Tự động phát hiện docker compose (V2) hoặc docker-compose (V1)
+if docker compose version >/dev/null 2>&1; then
+    DOCKER_COMPOSE="docker compose"
+elif docker-compose --version >/dev/null 2>&1; then
+    DOCKER_COMPOSE="docker-compose"
+else
+    echo -e "${RED}[LỖI] Không tìm thấy lệnh docker compose hoặc docker-compose.${NC}"
+    echo -e "Vui lòng cài đặt Docker và Docker Compose trước khi chạy script này."
+    exit 1
+fi
+
 # Kiểm tra xem file docker-compose.yml có tồn tại không
 if [ ! -f "docker-compose.yml" ]; then
-    echo -e "${RED}[LỖI] Không tìm thấy file docker-compose.yml trong thư mục này.${NC}"
+    echo -e "${RED}[LỖI] Không tìm thấy file docker-compose.yml tại thư mục: $SCRIPT_DIR${NC}"
     exit 1
 fi
 
@@ -18,7 +33,7 @@ show_help() {
     echo -e "${BLUE}===============================================${NC}"
     echo -e "${GREEN}    📱 ANDROID EMULATOR DOCKER CLI 📱        ${NC}"
     echo -e "${BLUE}===============================================${NC}"
-    echo -e "Cách sử dụng: ./start_docker.sh [lệnh]"
+    echo -e "Cách sử dụng: ./${0##*/} [lệnh]"
     echo -e ""
     echo -e "Các lệnh hỗ trợ:"
     echo -e "  ${YELLOW}start${NC}   : Khởi động máy ảo Android (chạy ngầm)"
@@ -32,7 +47,7 @@ show_help() {
 case "$1" in
     start)
         echo -e "${YELLOW}Đang khởi động Android Emulator...${NC}"
-        docker-compose up -d
+        $DOCKER_COMPOSE up -d
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}[THÀNH CÔNG] Máy ảo đang boot!${NC}"
             echo -e "-> Mở trình duyệt xem tại: ${BLUE}http://localhost:6080${NC}"
@@ -43,12 +58,12 @@ case "$1" in
         ;;
     stop)
         echo -e "${YELLOW}Đang tắt Android Emulator và giải phóng RAM...${NC}"
-        docker-compose down
+        $DOCKER_COMPOSE down
         echo -e "${GREEN}[THÀNH CÔNG] Đã tắt máy ảo.${NC}"
         ;;
     logs)
         echo -e "${YELLOW}Đang hiển thị Log (Nhấn Ctrl+C để thoát)...${NC}"
-        docker-compose logs -f
+        $DOCKER_COMPOSE logs -f
         ;;
     status)
         echo -e "${YELLOW}Trạng thái Container:${NC}"

@@ -10,22 +10,22 @@ Dự án này cung cấp môi trường máy ảo Android chạy ngầm bên tro
 
 ---
 
-## 🚀 2. Hướng dẫn sử dụng Mini-CLI (start_docker.sh)
+## 🚀 2. Hướng dẫn sử dụng Mini-CLI (cli_docker.sh)
 
 Dự án đi kèm một script quản lý nhanh máy ảo. Hãy chắc chắn bạn đã cấp quyền thực thi cho file:
-\`chmod +x start_docker.sh\`
+\`chmod +x cli_docker.sh\`
 
 Các lệnh hỗ trợ:
-* `./start_docker.sh start`  : Khởi động máy ảo (chạy background).
-* `./start_docker.sh logs`   : Xem log trực tiếp để biết máy ảo đã boot xong chưa.
-* `./start_docker.sh status` : Xem trạng thái container đang chạy.
-* `./start_docker.sh stop`   : Tắt hoàn toàn và xóa container để giải phóng RAM.
+* `./cli_docker.sh start`  : Khởi động máy ảo (chạy background).
+* `./cli_docker.sh logs`   : Xem log trực tiếp để biết máy ảo đã boot xong chưa.
+* `./cli_docker.sh status` : Xem trạng thái container đang chạy.
+* `./cli_docker.sh stop`   : Tắt hoàn toàn và xóa container để giải phóng RAM.
 
 ---
 
 ## 🔌 3. Cách truy cập và Tương tác với Máy ảo
 
-Sau khi chạy lệnh khởi động (`./start_docker.sh start`), máy ảo sẽ mất khoảng 2-3 phút để khởi động hoàn tất. Bạn có thể tương tác với máy ảo qua 2 cách:
+Sau khi chạy lệnh khởi động (`./cli_docker.sh start`), máy ảo sẽ mất khoảng 2-3 phút để khởi động hoàn tất. Bạn có thể tương tác với máy ảo qua 2 cách:
 
 ### Cách A: Xem giao diện trực quan (Web VNC)
 Mở trình duyệt web và truy cập vào địa chỉ:
